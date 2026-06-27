@@ -13,23 +13,19 @@
         background: #f0f4f8;
         font-family: "Segoe UI", sans-serif;
       }
-
       .navbar {
         background: #1a1a2e;
         padding: 14px 24px;
       }
-
       .navbar-brand {
         color: #fff;
         font-weight: 700;
         font-size: 16px;
       }
-
       .navbar-text {
         color: rgba(255, 255, 255, 0.7);
         font-size: 13px;
       }
-
       .logout-btn {
         color: rgba(255, 255, 255, 0.7);
         font-size: 13px;
@@ -39,11 +35,9 @@
         margin-left: 16px;
         padding: 0;
       }
-
       .logout-btn:hover {
         color: #fff;
       }
-
       .back-link {
         font-size: 13px;
         color: #6c757d;
@@ -51,11 +45,9 @@
         display: inline-block;
         margin: 24px 0 16px;
       }
-
       .back-link:hover {
         color: #1a1a2e;
       }
-
       .detail-card {
         background: #fff;
         border-radius: 12px;
@@ -63,36 +55,30 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         margin-bottom: 16px;
       }
-
       .detail-card h6 {
         font-weight: 700;
         color: #1a1a2e;
         margin: 0 0 20px;
         font-size: 15px;
       }
-
       .detail-row {
         display: flex;
         padding: 10px 0;
         border-bottom: 1px solid #f1f3f5;
         font-size: 13px;
       }
-
       .detail-row:last-child {
         border-bottom: none;
       }
-
       .detail-label {
         color: #6c757d;
         width: 160px;
         flex-shrink: 0;
       }
-
       .detail-value {
         color: #1a1a2e;
         font-weight: 500;
       }
-
       .badge-pending {
         background: #cfe2ff;
         color: #084298;
@@ -101,7 +87,6 @@
         font-size: 11px;
         font-weight: 500;
       }
-
       .badge-dispatched {
         background: #fff3cd;
         color: #856404;
@@ -110,7 +95,6 @@
         font-size: 11px;
         font-weight: 500;
       }
-
       .badge-delivered {
         background: #d1e7dd;
         color: #0a3622;
@@ -119,7 +103,6 @@
         font-size: 11px;
         font-weight: 500;
       }
-
       .badge-cancelled {
         background: #f8d7da;
         color: #58151c;
@@ -128,7 +111,6 @@
         font-size: 11px;
         font-weight: 500;
       }
-
       .refund-item {
         display: flex;
         justify-content: space-between;
@@ -137,15 +119,12 @@
         border-bottom: 1px solid #f1f3f5;
         font-size: 13px;
       }
-
       .refund-item:last-child {
         border-bottom: none;
       }
-
       .refund-reason {
         color: #495057;
       }
-
       .badge-approved {
         background: #d1e7dd;
         color: #0a3622;
@@ -154,7 +133,6 @@
         font-size: 11px;
         font-weight: 500;
       }
-
       .badge-denied {
         background: #f8d7da;
         color: #58151c;
@@ -163,7 +141,6 @@
         font-size: 11px;
         font-weight: 500;
       }
-
       .help-card {
         background: #fff;
         border-radius: 12px;
@@ -171,19 +148,16 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         text-align: center;
       }
-
       .help-card h6 {
         font-weight: 700;
         color: #1a1a2e;
         margin: 16px 0 8px;
       }
-
       .help-card p {
         font-size: 13px;
         color: #6c757d;
         margin: 0 0 20px;
       }
-
       .btn-help {
         background: #1a1a2e;
         color: #fff;
@@ -196,10 +170,42 @@
         display: inline-block;
         width: 100%;
       }
-
       .btn-help:hover {
         background: #2d2d4e;
         color: #fff;
+      }
+
+      /* ── Chat ── */
+      #chat-box {
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+      }
+      #chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      /* agent bubble — left */
+      .agent-message {
+        background: #f1f3f5;
+        border-radius: 12px 12px 12px 0;
+        align-self: flex-start;
+        font-size: 13px;
+        max-width: 80%;
+      }
+
+      /* customer bubble — right */
+      .customer-message {
+        background: #1a1a2e;
+        color: #fff;
+        border-radius: 12px 12px 0 12px;
+        align-self: flex-end;
+        font-size: 13px;
+        max-width: 80%;
       }
     </style>
   </head>
@@ -219,45 +225,42 @@
       <a href="{% url 'orders_list' %}" class="back-link">← Back to Orders</a>
 
       <div class="row g-3">
+        <!-- ── Order detail ── -->
         <div class="col-md-8">
           <div class="detail-card">
             <h6>Order #{{ order.id }} — {{ order.product_name }}</h6>
-
             <div class="detail-row">
               <span class="detail-label">Status</span>
-              <span class="detail-value">
-                <span class="badge-{{ order.status }}">
-                  {{ order.get_status_display }}
-                </span>
-              </span>
+              <span class="detail-value"
+                ><span class="badge-{{ order.status }}"
+                  >{{ order.get_status_display }}</span
+                ></span
+              >
             </div>
-
             <div class="detail-row">
               <span class="detail-label">Amount</span>
               <span class="detail-value">₹{{ order.amount }}</span>
             </div>
-
             <div class="detail-row">
               <span class="detail-label">Ordered on</span>
               <span class="detail-value"
                 >{{ order.created_at|date:"d M Y, h:i A" }}</span
               >
             </div>
-
             {% if order.carrier %}
             <div class="detail-row">
-              <span class="detail-label">Carrier</span>
-              <span class="detail-value">{{ order.carrier }}</span>
+              <span class="detail-label">Carrier</span
+              ><span class="detail-value">{{ order.carrier }}</span>
             </div>
             {% endif %} {% if order.tracking_number %}
             <div class="detail-row">
-              <span class="detail-label">Tracking Number</span>
-              <span class="detail-value">{{ order.tracking_number }}</span>
+              <span class="detail-label">Tracking Number</span
+              ><span class="detail-value">{{ order.tracking_number }}</span>
             </div>
             {% endif %} {% if order.delivery %}
             <div class="detail-row">
-              <span class="detail-label">Delivery Address</span>
-              <span class="detail-value">{{ order.delivery }}</span>
+              <span class="detail-label">Delivery Address</span
+              ><span class="detail-value">{{ order.delivery }}</span>
             </div>
             {% endif %}
           </div>
@@ -268,18 +271,19 @@
             {% for refund in refunds %}
             <div class="refund-item">
               <span class="refund-reason">{{ refund.reason }}</span>
-              <span class="badge-{{ refund.status }}">
-                {{ refund.get_status_display }}
-              </span>
+              <span class="badge-{{ refund.status }}"
+                >{{ refund.get_status_display }}</span
+              >
             </div>
             {% endfor %}
           </div>
           {% endif %}
         </div>
-        <!-- CHAT AI -->
+
+        <!-- ── Chat AI ── -->
         <div class="col-md-4">
-          <!-- Help card - Visible by default -->
-          <div class="help-card">
+          <!-- Help card -->
+          <div class="help-card mb-3">
             <div style="font-size: 32px">💬</div>
             <h6>Need help with this order?</h6>
             <p>
@@ -289,25 +293,70 @@
             <a href="#" class="btn-help">Get Help</a>
           </div>
 
-          <!--Chat Box - hidden by default -->
+          <!-- Chat box -->
           <div id="chat-box" class="card">
-            <!--Header-->
+            <!-- Header -->
             <div class="card-header d-flex align-items-center">
-                <span class="fw-semibold" style="font-size: 13px">Support Agent</span>
+              <span class="fw-semibold" style="font-size: 13px"
+                >🤖 Support Agent</span
+              >
             </div>
-            <!--Chat area -->
-            <div id="chat-messages" class="chat-messages p-3 d-flex"></div>
-            <div class="agent-message p-2 px-3" style="font-size: 13px; max-width: 80%;">
-                Hi User, I'm BerkAI, How can I help you today?
-            </div>
-        </div>
-            <!--Chat Footer -->
-            <div class="card-footer d-flex">
-                <input type="text" id="chat-input" class="font-control-sm" placeholder="Type your message ...">
-                <button class="btn btn-dark btn-small px-3">Send</button>
 
+            <!-- Messages — greeting lives HERE inside chat-messages -->
+            <div id="chat-messages" class="p-3">
+              <div class="agent-message p-2 px-3">
+                Hi, I'm BerkAI. How can I help you today?
+              </div>
             </div>
+
+            <!-- Footer -->
+            <div class="card-footer d-flex gap-2">
+              <input
+                type="text"
+                id="chat-input"
+                class="form-control form-control-sm"
+                placeholder="Type your message ..."
+              />
+              <button class="btn btn-dark btn-sm px-3" onclick="sendMessage()">
+                Send
+              </button>
+            </div>
+          </div>
+          <!-- /chat-box -->
+        </div>
+        <!-- /col-md-4 -->
       </div>
+      <!-- /row -->
     </div>
+    <!-- /container -->
+
+    <script>
+      function appendMessage(text, type) {
+        const messages = document.getElementById("chat-messages");
+        const div = document.createElement("div");
+        div.classList.add(
+          type === "customer" ? "customer-message" : "agent-message",
+        );
+        div.classList.add("p-2", "px-3");
+        div.innerText = text;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight; // auto-scroll to latest message
+      }
+
+      function sendMessage() {
+        const input = document.getElementById("chat-input");
+        const message = input.value.trim();
+        if (!message) return; // don't send empty messages
+        appendMessage(message, "customer");
+        input.value = "";
+      }
+
+      // Allow pressing Enter to send
+      document
+        .getElementById("chat-input")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") sendMessage();
+        });
+    </script>
   </body>
 </html>
