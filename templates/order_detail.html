@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -180,6 +181,8 @@
         height: 500px;
         display: flex;
         flex-direction: column;
+        /* ── Hide Chat-Box ── */
+        opacity: 0;
       }
       #chat-messages {
         flex: 1;
@@ -187,6 +190,16 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+      }
+
+      #chat-box {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      #chat-box.visible {
+        opacity: 1;
+        visibility: visible;
       }
 
       /* agent bubble — left */
@@ -283,23 +296,28 @@
         <!-- ── Chat AI ── -->
         <div class="col-md-4">
           <!-- Help card -->
-          <div class="help-card mb-3">
+          <div class="help-card mb-3" id="help-card">
             <div style="font-size: 32px">💬</div>
             <h6>Need help with this order?</h6>
             <p>
               Our AI support agent can help you with delivery issues, refunds,
               or any other concerns.
             </p>
-            <a href="#" class="btn-help">Get Help</a>
+            <button onclick="showChat()" class="btn-help">Get Help</button>
           </div>
 
           <!-- Chat box -->
           <div id="chat-box" class="card">
             <!-- Header -->
-            <div class="card-header d-flex align-items-center">
-              <span class="fw-semibold" style="font-size: 13px"
-                >🤖 Support Agent</span
-              >
+            <div class="card-header d-flex align-items-center gap-2">
+              <div class="status-dot"></div>
+
+              <div class="d-flex flex-column">
+                <span class="fw-semibold" style="font-size: 13px">
+                  🤖 Support Agent
+                </span>
+                <small class="text-success">Online</small>
+              </div>
             </div>
 
             <!-- Messages — greeting lives HERE inside chat-messages -->
@@ -317,7 +335,7 @@
                 class="form-control form-control-sm"
                 placeholder="Type your message ..."
               />
-              <button class="btn btn-dark btn-sm px-3" onclick="sendMessage()">
+              <button id="send-btn" class="btn btn-dark btn-sm px-3">
                 Send
               </button>
             </div>
@@ -330,33 +348,6 @@
     </div>
     <!-- /container -->
 
-    <script>
-      function appendMessage(text, type) {
-        const messages = document.getElementById("chat-messages");
-        const div = document.createElement("div");
-        div.classList.add(
-          type === "customer" ? "customer-message" : "agent-message",
-        );
-        div.classList.add("p-2", "px-3");
-        div.innerText = text;
-        messages.appendChild(div);
-        messages.scrollTop = messages.scrollHeight; // auto-scroll to latest message
-      }
-
-      function sendMessage() {
-        const input = document.getElementById("chat-input");
-        const message = input.value.trim();
-        if (!message) return; // don't send empty messages
-        appendMessage(message, "customer");
-        input.value = "";
-      }
-
-      // Allow pressing Enter to send
-      document
-        .getElementById("chat-input")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter") sendMessage();
-        });
-    </script>
+    <script src="{% static 'orders/js/chat.js' %}"></script>
   </body>
 </html>
